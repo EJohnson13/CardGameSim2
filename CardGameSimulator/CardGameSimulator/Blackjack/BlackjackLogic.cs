@@ -315,8 +315,15 @@ namespace CardGameSimulator.Blackjack
             {
                 if((int)(player1.PlayerHand[i].value) * 10 > p1Highest)
                 {
-                    p1Highest = (int)(player1.PlayerHand[i].value) * 10;
-                    p1CardNum = i;
+                    if (player1.PlayerHand[i].value != CardEnums.Face.Ace)
+                    {
+                        p1Highest = (int)(player1.PlayerHand[i].value) * 10;
+                        p1CardNum = i;
+                    }
+                    else
+                    {
+                        p1CardNum = i;
+                    }
                 }
             }
             for (int i = 0; i < player2.PlayerHand.Count; i++)
