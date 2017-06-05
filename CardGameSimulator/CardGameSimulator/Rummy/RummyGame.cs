@@ -51,7 +51,7 @@ namespace CardGameSimulator.Rummy
 
 
 
-            // This cod will print what is in the random deck that was not dealt
+            // This code will print what is in the random deck that was not dealt
             // Along with the hands of all the players
 
             //foreach (RummyPlayer player in players)
@@ -69,14 +69,28 @@ namespace CardGameSimulator.Rummy
 
 
             Card previouslyDiscarded = null;
+            RummyPlayer rp = null;
+            bool hasWon = false;
 
-
-            foreach (RummyPlayer player in players)
+            do
             {
-                previouslyDiscarded = Turn(player, deck, previouslyDiscarded);
-            }
 
+                foreach (RummyPlayer player in players)
+                {
+                    rp = player;
+                    previouslyDiscarded = Turn(player, deck, previouslyDiscarded);
+                    hasWon = CheckForWin(player.phand);
 
+                    if (hasWon == true) break;
+
+                   Intermission(hasWon);
+
+                    
+                }
+
+            } while (hasWon == false);
+
+            Console.WriteLine(rp.GetName() + " has Won!");
 
         }
 
@@ -202,7 +216,7 @@ namespace CardGameSimulator.Rummy
                     Console.WriteLine("Please enter valid input");
                     loop = true;
                 }
-                if (discard > 6 || discard < 1)
+                if (discard > 8 || discard < 1)
                 {
                     Console.WriteLine("Please enter valid input");
                     loop = true;
@@ -217,15 +231,6 @@ namespace CardGameSimulator.Rummy
                 }
             }
 
-
-            bool validMatchs = CheckForValueMatches(player.phand);
-            bool validRun = CheckForRun(player.phand);
-
-
-
-
-
-
             return previouslyDiscarded;
         }
 
@@ -235,72 +240,108 @@ namespace CardGameSimulator.Rummy
 
 
 
-        public bool CheckForValueMatches(List<Card> hand)
+        public bool CheckForWin(List<Card> hand)
         {
+            // Set the players hand to a Card Array.
          Card[] playersHand = hand.ToArray<Card>();
+
+            // Declare everything here so its not in the for Loop
             Card cardToCheck;
-            int counter = 0;
+            Card cardToCompare;
+            int counterForMatches = 0;
+            int counterForRun = 0;
             bool valid = true;
 
            
             for (int i = 0; i < playersHand.Length; i++)
             {
+                // Getting the cards in the hand to compare to all the other cards
                cardToCheck = hand[i];
-                counter = 0;
+
+                // Everytime there is a match, counter +=1, so if their counter is greater than or = to 4, they have valid matches
+                counterForMatches = 0;
+                counterForRun = 0;
 
                 for (int p = 0; p < playersHand.Length; p++)
                 {
-                    Card cardToCompare = hand[p];
+                    // Getting the cards to compare against the card to check
+                    // Counter will always be 1 cause eventually the card will chack itself so that must be accounted for
+                    cardToCompare = hand[p];
 
-                    if (cardToCheck.value == cardToCompare.value)
+                    if (cardToCheck.value.Equals(cardToCompare.value))
                     {
-                        counter++;
+                        counterForMatches++;
+                    }
+                    if (cardToCheck.value.Equals(cardToCompare.value + 1))
+                    {
+                        counterForRun++;
                     }
                 }
             }
 
-            if(counter > 4)
+            if(counterForMatches == 4 && counterForRun > 3)
             {
                 valid = true;
             }
-
-            return valid;
-        }
-
-        public bool CheckForRun(List<Card> hand)
-        {
-            Card[] playersHand = hand.ToArray<Card>();
-            Card cardToCheck;
-            int counter = 0;
-            bool valid = true;
-
-            
-
-            for (int i = 0; i < playersHand.Length; i++)
+            else
             {
-                cardToCheck = hand[i];
-                counter = 0;
-
-                for (int p = 0; p < playersHand.Length; p++)
-                {
-                    Card cardToCompare = hand[p];
-
-                    if (cardToCheck.value > cardToCompare.value)
-                    {
-                        counter++;
-                    }
-                }
-            }
-
-            if (counter > 4)
-            {
-                valid = true;
-            }
-            else{
                 valid = false;
             }
-
+            
             return valid;
         }
+
+        public void Intermission(bool hasWon)
+        {
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            if (hasWon == false)
+            {
+                Console.WriteLine("You hand is not valid for a win");
+                Console.WriteLine("-------------------------------- ");
+            }
+
+            Console.WriteLine("Your turn is over, starting next turn..");
+            Console.WriteLine("---------------------------------------");
+            Console.WriteLine(" ");
+            Console.WriteLine("Next turn will start in 10 seconds");
+            Console.WriteLine(" ");
+
+            System.Threading.Thread.Sleep(10000); // Sleep For 10 seconds
+
+        }
+
+
+
+
     }
 }

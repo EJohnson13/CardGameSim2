@@ -46,7 +46,7 @@ namespace CardGameSimulator.Rummy
 
             foreach(RummyPlayer player in players)
             {
-               for(int i = 0; i < 6; i++)
+               for(int i = 0; i < 7; i++)
                 {
                     Card card = shuffledDeck[i];
                     player.AddCard(card);
@@ -78,10 +78,6 @@ namespace CardGameSimulator.Rummy
 
             return deck;
         }
-
-
-
-
 
 
         public override Card Deal()
