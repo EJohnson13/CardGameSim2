@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSC150_ConsoleMenu;
+using CardGameSimulator.War;
 
 namespace CardGameSimulator
 {
@@ -42,6 +43,8 @@ namespace CardGameSimulator
                         break;
                     case 4:
                         //run war
+                        WarGame war = new WarGame();
+                        war.Run();
                         break;
                     case 0:
                         Console.WriteLine("Thanks for playing!");

@@ -61,13 +61,15 @@
     <Compile Include="Rummy\RummyGame.cs" />
     <Compile Include="Rummy\RummyPlayer.cs" />
     <Compile Include="RunGames.cs" />
+    <Compile Include="War\WarDealer.cs" />
+    <Compile Include="War\WarGame.cs" />
+    <Compile Include="War\WarPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Durak\" />
-    <Folder Include="War\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
