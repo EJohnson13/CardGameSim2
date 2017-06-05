@@ -34,6 +34,19 @@ namespace CardGameSimulator.Rummy
             phand.Add(newCard);
         }
 
+
+
+        public Card Discard(int index)
+        {
+            Card discard = phand[index];
+            phand.Remove(phand[index]);
+            return discard;
+        }
+
+
+
+
+
         public Card PlayCard()
         {
             throw new NotImplementedException();
@@ -41,9 +54,11 @@ namespace CardGameSimulator.Rummy
 
         public void PrintPlayerHand()
         {
-            foreach(Card card in phand)
+            int counter = 0;
+            foreach (Card card in phand)
             {
-                Console.WriteLine(card);
+                counter++;
+                Console.WriteLine(counter + ") " + card);
             }
         }
     }

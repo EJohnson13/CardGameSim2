@@ -25,15 +25,15 @@ namespace CardGameSimulator.Rummy
             Console.WriteLine("Min Players: 2");
             Console.WriteLine(" ");
 
-            while(keepgoing)
+            while (keepgoing)
             {
                 Console.WriteLine(" ");
                 Console.Write("How many Players are there: ");
-        
+
                 input = Console.ReadLine();
                 int.TryParse(input, out numOfPlayers);
 
-                if(numOfPlayers > 6 || numOfPlayers < 2)
+                if (numOfPlayers > 6 || numOfPlayers < 2)
                 {
                     Console.WriteLine("Please enter a valid number of players");
                     keepgoing = true;
@@ -45,7 +45,7 @@ namespace CardGameSimulator.Rummy
 
             }
 
-            List<RummyPlayer> players = generatePlayers(numOfPlayers);
+            List<RummyPlayer> players = GeneratePlayers(numOfPlayers);
             deck = dlr.ShuffleCards(deck);
             deck = dlr.DealCards(players, deck);
 
@@ -75,11 +75,11 @@ namespace CardGameSimulator.Rummy
             {
                 previouslyDiscarded = Turn(player, deck, previouslyDiscarded);
             }
-               
-            
-            
+
+
+
         }
-        
+
 
 
         public void PrintDeck(List<Card> deck)
@@ -88,14 +88,14 @@ namespace CardGameSimulator.Rummy
             foreach (Card card in deck)
             {
                 counter++;
-                Console.WriteLine(card +" Card #: "+ counter);
+                Console.WriteLine(card + " Card #: " + counter);
             }
             Console.WriteLine("");
         }
 
 
 
-        public List<RummyPlayer> generatePlayers(int numberOfPlayers)
+        public List<RummyPlayer> GeneratePlayers(int numberOfPlayers)
         {
 
             List<RummyPlayer> players = new List<RummyPlayer>();
@@ -113,37 +113,67 @@ namespace CardGameSimulator.Rummy
         }
 
 
-        
+
 
         public Card Turn(RummyPlayer player, List<Card> deck, Card previouslyDiscarded)
         {
             bool keepgoing = true;
             string input = null;
+            bool cardIsThere = true;
 
             Console.WriteLine(" ");
             Console.WriteLine("Current Hand for " + player.GetName());
-            Console.WriteLine("--------------------------------------");
+            Console.WriteLine("------------------------");
             player.PrintPlayerHand();
             Console.WriteLine(" ");
-            Console.WriteLine("Card previously Discarded: " + previouslyDiscarded);
 
+
+
+            if (previouslyDiscarded == null)
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("No cards have been discarded yet.");
+                Console.WriteLine(" ");
+                cardIsThere = false;
+            }
+            else
+            {
+                Console.WriteLine("Card previously Discarded: " + previouslyDiscarded);
+                cardIsThere = true;
+            }
 
             while (keepgoing)
             {
-
-                Console.WriteLine(" ");
-                Console.WriteLine("What action would you like to take? ");
-                Console.WriteLine("1) Draw off the top of remainder pile.");
-                Console.WriteLine("2) Draw previously discarded card.");
-
+                if (cardIsThere)
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("What action would you like to take? ");
+                    Console.WriteLine("1) Draw off the top of remainder pile.");
+                    Console.WriteLine("2) Draw previously discarded card.");
+                }
+                else
+                {
+                    Console.WriteLine("What action would you like to take? ");
+                    Console.WriteLine("1) Draw off the top of remainder pile.");
+                }
                 input = Console.ReadLine();
 
                 if (input.Equals("1"))
                 {
-
+                    Card cardDrawn = deck[1];
+                    Console.WriteLine("");
+                    Console.WriteLine("You drew a " + cardDrawn);
+                    Console.WriteLine("");
+                    player.AddCard(cardDrawn);
+                    deck.Remove(cardDrawn);
+                    keepgoing = false;
                 }
-                else if (input.Equals("2"))
+                else if (input.Equals("2") && cardIsThere)
                 {
+                    Console.WriteLine("");
+                    player.AddCard(previouslyDiscarded);
+                    Console.WriteLine("You added a " + previouslyDiscarded + " to your hand");
+                    keepgoing = false;
 
                 }
                 else
@@ -151,18 +181,58 @@ namespace CardGameSimulator.Rummy
                     Console.WriteLine(" ");
                     Console.WriteLine("Please enter valid input");
                     Console.WriteLine(" ");
+                    keepgoing = true;
                 }
             }
 
+            //Discard process
 
+            bool loop = true;
 
+            while (loop)
+            {
 
-
+                Console.WriteLine(" ");
+                Console.WriteLine("What card would you like to discard?");
+                Console.WriteLine("------------------------------------");
+                player.PrintPlayerHand();
+                string num = Console.ReadLine();
+                if (!int.TryParse(num, out int discard))
+                {
+                    Console.WriteLine("Please enter valid input");
+                    loop = true;
+                }
+                if (discard > 6 || discard < 1)
+                {
+                    Console.WriteLine("Please enter valid input");
+                    loop = true;
+                }
+                else
+                {
+                    discard -= 1;
+                    previouslyDiscarded = player.Discard(discard);
+                    Console.WriteLine(" ");
+                    Console.WriteLine("You have chosen to discard your " + previouslyDiscarded);
+                    loop = false;
+                }
+            }
             return previouslyDiscarded;
         }
 
         public bool CheckForMatches(List<Card> hand)
         {
+            //     RummyDealer dler = new RummyDealer();
+            Card[] playersHand = hand.ToArray<Card>();
+            //      List<Card> normalDeck = dler.CreateDeck();
+
+
+            for (int i = 0; i < playersHand.Length; i++)
+            {
+                Console.WriteLine(playersHand[i]);
+
+            }
+
+
 
 
             return false;
