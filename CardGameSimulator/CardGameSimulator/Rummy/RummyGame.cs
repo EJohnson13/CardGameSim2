@@ -216,32 +216,91 @@ namespace CardGameSimulator.Rummy
                     loop = false;
                 }
             }
+
+
+            bool validMatchs = CheckForValueMatches(player.phand);
+            bool validRun = CheckForRun(player.phand);
+
+
+
+
+
+
             return previouslyDiscarded;
         }
 
-        public bool CheckForMatches(List<Card> hand)
+
+
+
+
+
+
+        public bool CheckForValueMatches(List<Card> hand)
         {
-            //     RummyDealer dler = new RummyDealer();
-            Card[] playersHand = hand.ToArray<Card>();
-            //      List<Card> normalDeck = dler.CreateDeck();
+         Card[] playersHand = hand.ToArray<Card>();
+            Card cardToCheck;
+            int counter = 0;
+            bool valid = true;
 
-
+           
             for (int i = 0; i < playersHand.Length; i++)
             {
-                Console.WriteLine(playersHand[i]);
+               cardToCheck = hand[i];
+                counter = 0;
 
+                for (int p = 0; p < playersHand.Length; p++)
+                {
+                    Card cardToCompare = hand[p];
+
+                    if (cardToCheck.value == cardToCompare.value)
+                    {
+                        counter++;
+                    }
+                }
             }
 
+            if(counter > 4)
+            {
+                valid = true;
+            }
 
-
-
-            return false;
+            return valid;
         }
 
         public bool CheckForRun(List<Card> hand)
         {
+            Card[] playersHand = hand.ToArray<Card>();
+            Card cardToCheck;
+            int counter = 0;
+            bool valid = true;
 
-            return false;
+            
+
+            for (int i = 0; i < playersHand.Length; i++)
+            {
+                cardToCheck = hand[i];
+                counter = 0;
+
+                for (int p = 0; p < playersHand.Length; p++)
+                {
+                    Card cardToCompare = hand[p];
+
+                    if (cardToCheck.value > cardToCompare.value)
+                    {
+                        counter++;
+                    }
+                }
+            }
+
+            if (counter > 4)
+            {
+                valid = true;
+            }
+            else{
+                valid = false;
+            }
+
+            return valid;
         }
     }
 }

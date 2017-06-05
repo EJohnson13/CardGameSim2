@@ -22,3 +22,10 @@ C:\Users\Sapphire Gemini\Desktop\cardgamefinal\CardGameSim2\CardGameSimulator\Ca
 C:\Users\Sapphire Gemini\Desktop\cardgamefinal\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.csprojResolveAssemblyReference.cache
 C:\Users\Sapphire Gemini\Desktop\cardgamefinal\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.exe
 C:\Users\Sapphire Gemini\Desktop\cardgamefinal\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.pdb
+C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator\bin\Debug\CardGameSimulator.exe.config
+C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator\bin\Debug\CardGameSimulator.exe
+C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator\bin\Debug\CardGameSimulator.pdb
+C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator\bin\Debug\JohnsonE_CIO.dll
+C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.csprojResolveAssemblyReference.cache
+C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.exe
+C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.pdb
