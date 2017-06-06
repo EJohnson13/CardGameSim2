@@ -46,7 +46,7 @@ namespace CardGameSimulator.Rummy
 
             foreach(RummyPlayer player in players)
             {
-               for(int i = 0; i < 7; i++)
+               for(int i = 0; i < 4; i++)
                 {
                     Card card = shuffledDeck[i];
                     player.AddCard(card);

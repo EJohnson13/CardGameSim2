@@ -20,9 +20,12 @@ namespace CardGameSimulator.Rummy
             Console.WriteLine(" ");
             Console.WriteLine("Welcome to Rummy!");
             Console.WriteLine("-----------------");
+            Console.WriteLine("To Win: ");
+            Console.WriteLine(" - Get 4 of one kind");
+            Console.WriteLine(" - Get a Run of 4");
             Console.WriteLine(" ");
-            Console.WriteLine("Max Players: 6");
-            Console.WriteLine("Min Players: 2");
+            Console.WriteLine(" - Max Players: 6");
+            Console.WriteLine(" - Min Players: 2");
             Console.WriteLine(" ");
 
             while (keepgoing)
@@ -49,25 +52,6 @@ namespace CardGameSimulator.Rummy
             deck = dlr.ShuffleCards(deck);
             deck = dlr.DealCards(players, deck);
 
-
-
-            // This code will print what is in the random deck that was not dealt
-            // Along with the hands of all the players
-
-            //foreach (RummyPlayer player in players)
-            //{
-            //    Console.WriteLine("Hands");
-            //    Console.WriteLine(" ");
-            //    player.PrintPlayerHand();
-            //    Console.WriteLine(" ");
-            //}
-
-            //foreach(Card card in deck)
-            //{
-            //    Console.WriteLine(card);
-            //}
-
-
             Card previouslyDiscarded = null;
             RummyPlayer rp = null;
             bool hasWon = false;
@@ -90,7 +74,10 @@ namespace CardGameSimulator.Rummy
 
             } while (hasWon == false);
 
+            Console.WriteLine(" ");
             Console.WriteLine(rp.GetName() + " has Won!");
+            Console.WriteLine(" ");
+            Console.WriteLine("Returning to main menu");
 
         }
 
@@ -125,6 +112,7 @@ namespace CardGameSimulator.Rummy
 
             return players;
         }
+
 
 
 
@@ -216,7 +204,7 @@ namespace CardGameSimulator.Rummy
                     Console.WriteLine("Please enter valid input");
                     loop = true;
                 }
-                if (discard > 8 || discard < 1)
+                if (discard > 5 || discard < 1)
                 {
                     Console.WriteLine("Please enter valid input");
                     loop = true;
@@ -238,58 +226,100 @@ namespace CardGameSimulator.Rummy
 
 
 
+        List<Card> testList = new List<Card>();
+        Card test1 = new Card(CardEnums.Face.Two, CardEnums.Color.Black, CardEnums.Suit.Clubs);
+        Card test2 = new Card(CardEnums.Face.Three, CardEnums.Color.Red, CardEnums.Suit.Spades);
+        Card test3 = new Card(CardEnums.Face.Five, CardEnums.Color.Black, CardEnums.Suit.Diamonds);
+        Card test4 = new Card(CardEnums.Face.Five, CardEnums.Color.Red, CardEnums.Suit.Hearts);
 
-
-        public bool CheckForWin(List<Card> hand)
+       public void Test()
         {
-            // Set the players hand to a Card Array.
-         Card[] playersHand = hand.ToArray<Card>();
+            testList.Add(test1);
+            testList.Add(test2);
+            testList.Add(test3);
+            testList.Add(test4);
 
-            // Declare everything here so its not in the for Loop
-            Card cardToCheck;
-            Card cardToCompare;
-            int counterForMatches = 0;
-            int counterForRun = 0;
-            bool valid = true;
 
-           
-            for (int i = 0; i < playersHand.Length; i++)
+           bool worked = CheckForWin(testList);
+
+            if (worked)
             {
-                // Getting the cards in the hand to compare to all the other cards
-               cardToCheck = hand[i];
-
-                // Everytime there is a match, counter +=1, so if their counter is greater than or = to 4, they have valid matches
-                counterForMatches = 0;
-                counterForRun = 0;
-
-                for (int p = 0; p < playersHand.Length; p++)
-                {
-                    // Getting the cards to compare against the card to check
-                    // Counter will always be 1 cause eventually the card will chack itself so that must be accounted for
-                    cardToCompare = hand[p];
-
-                    if (cardToCheck.value.Equals(cardToCompare.value))
-                    {
-                        counterForMatches++;
-                    }
-                    if (cardToCheck.value.Equals(cardToCompare.value + 1))
-                    {
-                        counterForRun++;
-                    }
-                }
-            }
-
-            if(counterForMatches == 4 && counterForRun > 3)
-            {
-                valid = true;
+                Console.WriteLine("");
+                Console.WriteLine("It worked");
+                Console.WriteLine("");
             }
             else
             {
-                valid = false;
+                Console.WriteLine(" ");
+                Console.WriteLine("Didnt work");
+                Console.WriteLine(" ");
             }
-            
-            return valid;
         }
+
+        public bool CheckForWin(List<Card> playersHand)
+        {
+            CardEnums.Face[] faces = new CardEnums.Face[13];    // Might be 12
+            Card[] hand = playersHand.ToArray();
+            int counterForMatches = 0;
+            bool runValid = true;
+            bool won = true;
+
+            foreach (Card card in playersHand)
+            {
+                // Checking for matches
+                for (int i = 0; i < hand.Length; i++)
+                {
+                    if (card.value == hand[i].value)
+                    {
+                        counterForMatches++;
+                    }
+                }
+
+               
+            }
+            if (counterForMatches == 16)
+            {
+                won = true;
+            }
+            else
+            {
+                won = false;
+            }
+
+            return won;
+        }
+
+
+
+        //public bool DoubleCheckForWin(List<Card> playersHand)
+        //{
+
+        //    Card[] hand = playersHand.ToArray();
+
+
+
+        //    for (int i = 0; i < hand.Length; i++)
+        //    {
+        //        CardEnums.Face cardCheckFace = card.value;
+        //        CardEnums.Face c1 = hand[i + 1].value;
+        //        CardEnums.Face c2 = hand[i + 2].value;
+        //        CardEnums.Face c3 = hand[i + 3].value;
+
+
+        //        if (cardCheckFace + 1 == c1 && cardCheckFace + 2 == c2 && cardCheckFace + 3 == c3)
+        //        {
+        //            runValid = true;
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            runValid = false;
+        //        }
+        //    }
+        //}
+
+
+
 
         public void Intermission(bool hasWon)
         {
@@ -324,12 +354,8 @@ namespace CardGameSimulator.Rummy
             Console.WriteLine(" ");
             Console.WriteLine(" ");
             Console.WriteLine(" ");
-            if (hasWon == false)
-            {
-                Console.WriteLine("You hand is not valid for a win");
-                Console.WriteLine("-------------------------------- ");
-            }
-
+            Console.WriteLine("You hand is not valid for a win");
+            Console.WriteLine("-------------------------------- ");
             Console.WriteLine("Your turn is over, starting next turn..");
             Console.WriteLine("---------------------------------------");
             Console.WriteLine(" ");
