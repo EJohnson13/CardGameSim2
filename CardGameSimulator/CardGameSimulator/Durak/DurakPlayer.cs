@@ -8,11 +8,26 @@ namespace CardGameSimulator.Durak
 {
     public class DurakPlayer : IPlayerable
     {
-        public List<Card> playerHand { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<Card> playerHand = new List<Card>();
 
-        public void AddCard(Card newCard){}
+        List<Card> IPlayerable.playerHand { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public void AddCard(Card newCard)
+        {
+            if (newCard == null) playerHand.TrimExcess();
+            else playerHand.Add(newCard);
+        }
 
         public Card PlayCard() { return null; }
 
+        public List<string> DisplayHand()
+        {
+            List<string> handList = new List<string>();
+            foreach(Card card in playerHand)
+            {
+                if(card != null) handList.Add(card.ToString());
+            }
+            return handList;
+        }
     }
 }

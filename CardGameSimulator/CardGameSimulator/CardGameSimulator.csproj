@@ -54,6 +54,10 @@
     <Compile Include="CardEnums\Suit.cs" />
     <Compile Include="Dealer.cs" />
     <Compile Include="Driver.cs" />
+    <Compile Include="Durak\DurakDealer.cs" />
+    <Compile Include="Durak\DurakLogic.cs" />
+    <Compile Include="Durak\DurakPlayer.cs" />
+    <Compile Include="Durak\GameRunner.cs" />
     <Compile Include="IPlayerable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rummy\RummyDealer.cs" />
@@ -68,8 +72,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Durak\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

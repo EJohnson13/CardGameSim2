@@ -29,3 +29,10 @@ C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator
 C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.csprojResolveAssemblyReference.cache
 C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.exe
 C:\Neumont work\NewOopFinalRepo\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.pdb
+C:\Users\BlazingHoundoom\Documents\Visual Studio 2017\Projects\CardGameSim2\CardGameSimulator\CardGameSimulator\bin\Debug\CardGameSimulator.exe.config
+C:\Users\BlazingHoundoom\Documents\Visual Studio 2017\Projects\CardGameSim2\CardGameSimulator\CardGameSimulator\bin\Debug\CardGameSimulator.exe
+C:\Users\BlazingHoundoom\Documents\Visual Studio 2017\Projects\CardGameSim2\CardGameSimulator\CardGameSimulator\bin\Debug\CardGameSimulator.pdb
+C:\Users\BlazingHoundoom\Documents\Visual Studio 2017\Projects\CardGameSim2\CardGameSimulator\CardGameSimulator\bin\Debug\JohnsonE_CIO.dll
+C:\Users\BlazingHoundoom\Documents\Visual Studio 2017\Projects\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.csprojResolveAssemblyReference.cache
+C:\Users\BlazingHoundoom\Documents\Visual Studio 2017\Projects\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.exe
+C:\Users\BlazingHoundoom\Documents\Visual Studio 2017\Projects\CardGameSim2\CardGameSimulator\CardGameSimulator\obj\Debug\CardGameSimulator.pdb
