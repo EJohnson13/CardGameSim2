@@ -22,7 +22,7 @@ namespace CardGameSimulator
 
         public override string ToString()
         {
-            return $"{value} of {suit} ({color})";
+            return $"{value} of {suit}";
         }
     }
 }

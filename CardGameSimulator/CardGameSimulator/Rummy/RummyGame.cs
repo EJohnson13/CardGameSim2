@@ -10,6 +10,7 @@ namespace CardGameSimulator.Rummy
     {
         public void Run()
         {
+
             bool keepgoing = true;
             RummyDealer dlr = new RummyDealer();
             List<Card> deck = dlr.CreateDeck();
@@ -20,9 +21,12 @@ namespace CardGameSimulator.Rummy
             Console.WriteLine(" ");
             Console.WriteLine("Welcome to Rummy!");
             Console.WriteLine("-----------------");
+            Console.WriteLine("To Win: ");
+            Console.WriteLine(" - Get 4 of one kind");
+            Console.WriteLine(" - Get a Run of 4");
             Console.WriteLine(" ");
-            Console.WriteLine("Max Players: 6");
-            Console.WriteLine("Min Players: 2");
+            Console.WriteLine(" - Max Players: 6");
+            Console.WriteLine(" - Min Players: 2");
             Console.WriteLine(" ");
 
             while (keepgoing)
@@ -49,25 +53,6 @@ namespace CardGameSimulator.Rummy
             deck = dlr.ShuffleCards(deck);
             deck = dlr.DealCards(players, deck);
 
-
-
-            // This code will print what is in the random deck that was not dealt
-            // Along with the hands of all the players
-
-            //foreach (RummyPlayer player in players)
-            //{
-            //    Console.WriteLine("Hands");
-            //    Console.WriteLine(" ");
-            //    player.PrintPlayerHand();
-            //    Console.WriteLine(" ");
-            //}
-
-            //foreach(Card card in deck)
-            //{
-            //    Console.WriteLine(card);
-            //}
-
-
             Card previouslyDiscarded = null;
             RummyPlayer rp = null;
             bool hasWon = false;
@@ -80,8 +65,10 @@ namespace CardGameSimulator.Rummy
                     rp = player;
                     previouslyDiscarded = Turn(player, deck, previouslyDiscarded);
                     hasWon = CheckForWin(player.phand);
+                    hasWon = CheckForRun(player.phand);
 
                     if (hasWon == true) break;
+
 
                    Intermission(hasWon);
 
@@ -90,7 +77,10 @@ namespace CardGameSimulator.Rummy
 
             } while (hasWon == false);
 
+            Console.WriteLine(" ");
             Console.WriteLine(rp.GetName() + " has Won!");
+            Console.WriteLine(" ");
+            Console.WriteLine("Returning to main menu");
 
         }
 
@@ -125,6 +115,7 @@ namespace CardGameSimulator.Rummy
 
             return players;
         }
+
 
 
 
@@ -216,7 +207,7 @@ namespace CardGameSimulator.Rummy
                     Console.WriteLine("Please enter valid input");
                     loop = true;
                 }
-                if (discard > 8 || discard < 1)
+                if (discard > 5 || discard < 1)
                 {
                     Console.WriteLine("Please enter valid input");
                     loop = true;
@@ -238,58 +229,392 @@ namespace CardGameSimulator.Rummy
 
 
 
+        List<Card> testList = new List<Card>();
+        Card test1 = new Card(CardEnums.Face.Six, CardEnums.Color.Black, CardEnums.Suit.Clubs);
+        Card test2 = new Card(CardEnums.Face.Four, CardEnums.Color.Red, CardEnums.Suit.Spades);
+        Card test3 = new Card(CardEnums.Face.Three, CardEnums.Color.Black, CardEnums.Suit.Diamonds);
+        Card test4 = new Card(CardEnums.Face.Five, CardEnums.Color.Red, CardEnums.Suit.Hearts);
 
-
-        public bool CheckForWin(List<Card> hand)
+        public void Test()
         {
-            // Set the players hand to a Card Array.
-         Card[] playersHand = hand.ToArray<Card>();
+            testList.Add(test2);
+            testList.Add(test1);
+            testList.Add(test4);
+            testList.Add(test3);
 
-            // Declare everything here so its not in the for Loop
-            Card cardToCheck;
-            Card cardToCompare;
-            int counterForMatches = 0;
-            int counterForRun = 0;
-            bool valid = true;
 
-           
-            for (int i = 0; i < playersHand.Length; i++)
+          bool worked = CheckForRun(testList);
+        
+
+            if (worked)
             {
-                // Getting the cards in the hand to compare to all the other cards
-               cardToCheck = hand[i];
+                Console.WriteLine("");
+                Console.WriteLine("It worked");
+                Console.WriteLine("");
+            }
+            else
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("Didnt work");
+                Console.WriteLine(" ");
+            }
+        }
 
-                // Everytime there is a match, counter +=1, so if their counter is greater than or = to 4, they have valid matches
-                counterForMatches = 0;
-                counterForRun = 0;
+        public bool CheckForWin(List<Card> playersHand)
+        {
+            CardEnums.Face[] faces = new CardEnums.Face[13];    // Might be 12
+            Card[] hand = playersHand.ToArray();
+            int counterForMatches = 0;
+            bool won = true;
 
-                for (int p = 0; p < playersHand.Length; p++)
+            foreach (Card card in playersHand)
+            {
+                // Checking for matches
+                for (int i = 0; i < hand.Length; i++)
                 {
-                    // Getting the cards to compare against the card to check
-                    // Counter will always be 1 cause eventually the card will chack itself so that must be accounted for
-                    cardToCompare = hand[p];
-
-                    if (cardToCheck.value.Equals(cardToCompare.value))
+                    if (card.value == hand[i].value)
                     {
                         counterForMatches++;
                     }
-                    if (cardToCheck.value.Equals(cardToCompare.value + 1))
+                }
+
+               
+            }
+            if (counterForMatches == 16)
+            {
+                won = true;
+            }
+            else
+            {
+                won = false;
+            }
+
+            return won;
+        }
+
+
+        public bool CheckForRun(List<Card> hand)
+        {
+            int counter = 0;
+  
+            Card[] playersHand = hand.ToArray();
+
+
+            for(int i = 0; i < playersHand.Length; i++)
+            {
+                int p1 = i + 1;
+                int p2 = i + 2;
+                int p3 = i + 3;
+
+                if (playersHand[i].value.Equals(CardEnums.Face.Ace))
+                {
+
+                    counter = 0;
+
+                    try
                     {
-                        counterForRun++;
+                        if (playersHand[p1].value.Equals(CardEnums.Face.Two) && playersHand[p2].value.Equals(CardEnums.Face.Three) && playersHand[p3].value.Equals(CardEnums.Face.Four))
+                        {
+                            counter += 3 ;
+
+                        }
+                        else
+                        {
+
+                            for (int p = 0; p < playersHand.Length; p++)
+                            {
+                                if(playersHand[p].value.Equals(CardEnums.Face.Two) || playersHand[p].value.Equals(CardEnums.Face.Three) || playersHand[p].value.Equals(CardEnums.Face.Four))
+                                {
+                                    counter++;
+
+                                }
+                                
+                            }
+
+                        }
+                    }
+                    catch (IndexOutOfRangeException )
+                    {
+
+                    }
+          
+                }
+                else if (playersHand[i].value == CardEnums.Face.Two)
+                {
+                    try
+                    {
+                        if (playersHand[p1].value.Equals(CardEnums.Face.Three) && playersHand[p2].value.Equals(CardEnums.Face.Four) && playersHand[p3].value.Equals(CardEnums.Face.Five))
+                        {
+                            counter += 3;
+                        }
+                        else
+                        {
+
+                            for (int p = 0; p < playersHand.Length; p++)
+                            {
+                                if (playersHand[p].value.Equals(CardEnums.Face.Three) || playersHand[p].value.Equals(CardEnums.Face.Four) || playersHand[p].value.Equals(CardEnums.Face.Five))
+                                {
+                                    counter++;
+
+                                }
+
+                            }
+
+                        }
+                    }
+                    catch (IndexOutOfRangeException )
+                    {
+
+                    }
+
+                }
+                else if (playersHand[i].value == CardEnums.Face.Three)
+                {
+                    try
+                    {
+                        if (playersHand[p1].value.Equals(CardEnums.Face.Four) && playersHand[p2].value.Equals(CardEnums.Face.Five) && playersHand[p3].value.Equals(CardEnums.Face.Six))
+                        {
+                            counter += 3;
+                        }
+                        else
+                        {
+
+                            for (int p = 0; p < playersHand.Length; p++)
+                            {
+                                if (playersHand[p].value.Equals(CardEnums.Face.Four) || playersHand[p].value.Equals(CardEnums.Face.Five) || playersHand[p].value.Equals(CardEnums.Face.Six))
+                                {
+                                    counter++;
+
+                                }
+
+                            }
+
+                        }
+                    }
+                    catch (IndexOutOfRangeException )
+                    {
+
+                    }
+                }
+                else if (playersHand[i].value == CardEnums.Face.Four)
+                {
+                    try
+                    {
+                        if (playersHand[p1].value.Equals(CardEnums.Face.Five) && playersHand[p2].value.Equals(CardEnums.Face.Six) && playersHand[p3].value.Equals(CardEnums.Face.Seven))
+                        {
+                            counter += 3;
+                        }
+                        else
+                        {
+
+                            for (int p = 0; p < playersHand.Length; p++)
+                            {
+                                if (playersHand[p].value.Equals(CardEnums.Face.Five) || playersHand[p].value.Equals(CardEnums.Face.Six) || playersHand[p].value.Equals(CardEnums.Face.Seven))
+                                {
+                                    counter++;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+                    catch (IndexOutOfRangeException )
+                    {
+
+                    }
+                }
+                else if (playersHand[i].value == CardEnums.Face.Five)
+                {
+                    try
+                    {
+                        if (playersHand[p1].value.Equals(CardEnums.Face.Six) && playersHand[p2].value.Equals(CardEnums.Face.Seven) && playersHand[p3].value.Equals(CardEnums.Face.Eight))
+                        {
+                            counter += 3;
+                        }
+                        else
+                        {
+
+                            for (int p = 0; p < playersHand.Length; p++)
+                            {
+                                if (playersHand[p].value.Equals(CardEnums.Face.Six) || playersHand[p].value.Equals(CardEnums.Face.Seven) || playersHand[p].value.Equals(CardEnums.Face.Eight))
+                                {
+                                    counter++;
+
+                                }
+
+                            }
+
+                        }
+                    }
+                    catch (IndexOutOfRangeException )
+                    {
+
+                    }
+
+                }
+                else if (playersHand[i].value == CardEnums.Face.Six)
+                {
+                    try
+                    {
+                        if (playersHand[p1].value.Equals(CardEnums.Face.Seven) && playersHand[p2].value.Equals(CardEnums.Face.Eight) && playersHand[p3].value.Equals(CardEnums.Face.Nine))
+                        {
+                            counter += 3;
+                        }
+                        else
+                        {
+
+                            for (int p = 0; p < playersHand.Length; p++)
+                            {
+                                if (playersHand[p].value.Equals(CardEnums.Face.Seven) || playersHand[p].value.Equals(CardEnums.Face.Eight) || playersHand[p].value.Equals(CardEnums.Face.Nine))
+                                {
+                                    counter++;
+
+                                }
+
+                            }
+
+                        }
+                    }
+                    catch (IndexOutOfRangeException )
+                    {
+
+                    }
+                }
+                else if (playersHand[i].value == CardEnums.Face.Seven)
+                {
+                    try
+                    {
+                        if (playersHand[p1].value.Equals(CardEnums.Face.Eight) && playersHand[p2].value.Equals(CardEnums.Face.Nine) && playersHand[p3].value.Equals(CardEnums.Face.Ten))
+                        {
+                            counter += 3;
+                        }
+                        else
+                        {
+
+                            for (int p = 0; p < playersHand.Length; p++)
+                            {
+                                if (playersHand[p].value.Equals(CardEnums.Face.Eight) || playersHand[p].value.Equals(CardEnums.Face.Nine) || playersHand[p].value.Equals(CardEnums.Face.Ten))
+                                {
+                                    counter++;
+
+                                }
+
+                            }
+
+                        }
+                    }
+                    catch (IndexOutOfRangeException )
+                    {
+
+                    }
+
+                }
+                else if (playersHand[i].value == CardEnums.Face.Eight)
+                {
+                    try
+                    {
+                        if (playersHand[p1].value.Equals(CardEnums.Face.Nine) && playersHand[p2].value.Equals(CardEnums.Face.Ten) && playersHand[p3].value.Equals(CardEnums.Face.Jack))
+                        {
+                            counter += 3;
+                        }
+                        else
+                        {
+
+                            for (int p = 0; p < playersHand.Length; p++)
+                            {
+                                if (playersHand[p].value.Equals(CardEnums.Face.Nine) || playersHand[p].value.Equals(CardEnums.Face.Ten) || playersHand[p].value.Equals(CardEnums.Face.Jack))
+                                {
+                                    counter++;
+
+                                }
+
+                            }
+
+                        }
+                    }
+                    catch (IndexOutOfRangeException )
+                    {
+
+                    }
+
+                }
+                else if (playersHand[i].value == CardEnums.Face.Nine)
+                {
+                    try
+                    {
+                        if (playersHand[p1].value.Equals(CardEnums.Face.Ten) && playersHand[p2].value.Equals(CardEnums.Face.Jack) && playersHand[p3].value.Equals(CardEnums.Face.Queen))
+                        {
+                            counter += 3;
+                        }
+                        else
+                        {
+
+                            for (int p = 0; p < playersHand.Length; p++)
+                            {
+                                if (playersHand[p].value.Equals(CardEnums.Face.Ten) || playersHand[p].value.Equals(CardEnums.Face.Jack) || playersHand[p].value.Equals(CardEnums.Face.Queen))
+                                {
+                                    counter++;
+
+                                }
+
+                            }
+
+                        }
+                    }
+                    catch (IndexOutOfRangeException )
+                    {
+
+                    }
+
+                }
+                else if (playersHand[i].value == CardEnums.Face.Ten)
+                {
+                    try
+                    {
+                        if (playersHand[p1].value.Equals(CardEnums.Face.Jack) && playersHand[p2].value.Equals(CardEnums.Face.Queen) && playersHand[p3].value.Equals(CardEnums.Face.King))
+                        {
+                            counter += 3;
+                        }
+                        else
+                        {
+
+                            for (int p = 0; p < playersHand.Length; p++)
+                            {
+                                if (playersHand[p].value.Equals(CardEnums.Face.Jack) || playersHand[p].value.Equals(CardEnums.Face.Queen) || playersHand[p].value.Equals(CardEnums.Face.King))
+                                {
+                                    counter++;
+
+                                }
+
+                            }
+
+                        }
+                    }
+                    catch (IndexOutOfRangeException )
+                    {
+
                     }
                 }
             }
 
-            if(counterForMatches == 4 && counterForRun > 3)
+
+
+            if (counter > 2)
             {
-                valid = true;
+                return true;
             }
             else
             {
-                valid = false;
+                return false;
             }
-            
-            return valid;
+         
         }
+
+
+
+
 
         public void Intermission(bool hasWon)
         {
@@ -324,12 +649,8 @@ namespace CardGameSimulator.Rummy
             Console.WriteLine(" ");
             Console.WriteLine(" ");
             Console.WriteLine(" ");
-            if (hasWon == false)
-            {
-                Console.WriteLine("You hand is not valid for a win");
-                Console.WriteLine("-------------------------------- ");
-            }
-
+            Console.WriteLine("You hand is not valid for a win");
+            Console.WriteLine("-------------------------------- ");
             Console.WriteLine("Your turn is over, starting next turn..");
             Console.WriteLine("---------------------------------------");
             Console.WriteLine(" ");
