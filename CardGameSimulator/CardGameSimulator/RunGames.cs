@@ -32,7 +32,8 @@ namespace CardGameSimulator
                         run.RunGame();
                         break;
                     case 2:
-                        //run Durak
+                        Durak.GameRunner play = new Durak.GameRunner();
+                        play.Run();
                         break;
                     case 3:
                         //run rummy
